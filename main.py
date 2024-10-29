@@ -24,11 +24,13 @@ from compressions import *
 total_diff = 0
 n = 10
 for o_num, s_num in zip(lorenz_random_number(n,length = 14), lorenz_random_number(n, sampled=True, length = 14)):
+    print(f"-------------------------------------------------")
     curr_diff = zlib_compression(o_num) - zlib_compression(s_num)
     print(f"Source System:  {o_num} | Sampled System: {s_num}")
-    print(f"-------------------------------------------------")
     print(f"Differnce in zlib compression: {curr_diff}")
     total_diff += curr_diff
+else:
+    print(f"-------------------------------------------------")
 
-print(f"======================================================")
 print(f"Mean Error over {n} points: {total_diff/n}")
+print(f"======================================================")
