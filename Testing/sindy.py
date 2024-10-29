@@ -65,37 +65,37 @@ for i in range(0,10):
     print(f"Time {t_train[i]}, ({x_train[i][0]}, {x_train[i][1]}, {x_train[i][2]})")
 
 
-# Instantiate and fit the SINDy model
-# model = ps.SINDy()
-# model.fit(x_train, t=dt)
-# model.print()
+#Instantiate and fit the SINDy model
+model = ps.SINDy()
+model.fit(x_train, t=dt)
+model.print()
 
 
-# # Evolve the Lorenz equations in time using a different initial condition
-# t_test = np.arange(0, t_end_test, dt)
-# x0_test = np.array([8, 7, 15])
-# t_test_span = (t_test[0], t_test[-1])
-# x_test = solve_ivp(
-#     lorenz, t_test_span, x0_test, t_eval=t_test, **integrator_keywords
-# ).y.T
+# Evolve the Lorenz equations in time using a different initial condition
+t_test = np.arange(0, t_end_test, dt)
+x0_test = np.array([8, 7, 15])
+t_test_span = (t_test[0], t_test[-1])
+x_test = solve_ivp(
+    lorenz, t_test_span, x0_test, t_eval=t_test, **integrator_keywords
+).y.T
 
-# print()
-
-
-# # Compare SINDy-predicted derivatives with finite difference derivatives
-# print("Model score: %f" % model.score(x_test, t=dt))
+print()
 
 
-# # Predict derivatives using the learned model
-# x_dot_test_predicted = model.predict(x_test)
+# Compare SINDy-predicted derivatives with finite difference derivatives
+print("Model score: %f" % model.score(x_test, t=dt))
 
-# # Compute derivatives with a finite difference method, for comparison
-# x_dot_test_computed = model.differentiate(x_test, t=dt)
 
-# fig, axs = plt.subplots(x_test.shape[1], 1, sharex=True, figsize=(7, 9))
-# for i in range(x_test.shape[1]):
-#     axs[i].plot(t_test, x_dot_test_computed[:, i], "k", label="numerical derivative")
-#     axs[i].plot(t_test, x_dot_test_predicted[:, i], "r--", label="model prediction")
-#     axs[i].legend()
-#     axs[i].set(xlabel="t", ylabel=r"$\dot x_{}$".format(i))
-# plt.show()
+# Predict derivatives using the learned model
+x_dot_test_predicted = model.predict(x_test)
+
+# Compute derivatives with a finite difference method, for comparison
+x_dot_test_computed = model.differentiate(x_test, t=dt)
+
+fig, axs = plt.subplots(x_test.shape[1], 1, sharex=True, figsize=(7, 9))
+for i in range(x_test.shape[1]):
+    axs[i].plot(t_test, x_dot_test_computed[:, i], "k", label="numerical derivative")
+    axs[i].plot(t_test, x_dot_test_predicted[:, i], "r--", label="model prediction")
+    axs[i].legend()
+    axs[i].set(xlabel="t", ylabel=r"$\dot x_{}$".format(i))
+plt.show()

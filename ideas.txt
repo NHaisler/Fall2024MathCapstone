@@ -1,0 +1,29 @@
+If a system produced by SINDy "maintains randomness" then it is said to be a
+random conserving, RC system
+-How to define this. Choose some specific metrics to go off of to start,
+and this can maybe be generalized to different methods of randomness
+quantification
+
+
+Maybe define some other important propertiess
+-Sustained: The sampled system doesn't ever lose the other properties over
+time.
+
+1. Given initial conditions for a lorenz system, does there exists a time interval
+and sample rate where SINDy produces an RC system
+    -I believe this should be true, the trivial case is just give a very small
+    dt so that the sampled system ends up being close to if not 100% accuracte
+    to the original system. Although checking for non-trivial could be an important
+    first step for next idea
+
+2. Given initial conditions for a lorenz system, does there exist a minmimum
+sample rate where SINDy produces an RC system
+    -Stricter than previous, basically what is the highest I can make
+    dt and RC. Possibly other properties
+
+3. Given initial conditions for a lorenz system, and a corresponding RC system,
+can we determine how long the sampled system is RC.
+    -Same as sustained idea. Can the properties be guranteed to stay or will
+    the system begin to do something weird
+
+4. ...

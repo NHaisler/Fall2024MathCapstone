@@ -1,6 +1,7 @@
 import math
 from collections import Counter
 import zlib
+import sys
 
 def entropy(s):
     freq = Counter(s)
@@ -31,3 +32,11 @@ def rle_compression_ratio(s):
     rle_encoded = run_length_encoding(s)
     compressed_size = sum([len(str(count)) + 1 for char, count in rle_encoded])
     return (compressed_size / len(s)) - 1
+
+
+def zlib_compression(s):
+    s = s.encode()
+    original = sys.getsizeof(s)
+    compressed = sys.getsizeof(zlib.compress(s))
+
+    return original/compressed
