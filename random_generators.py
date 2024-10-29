@@ -64,7 +64,7 @@ def lorenz_random_number(n, sampled = False, length = 8):
 
 
 
-#Might need to take derivate, since the initial conditions will move around the quandrants and the system doesn't have a clear left and rights
+#Might need to take derivate, since the initial conditions will move around the quandrants and the system doesn't have a clear a left and right loop
 def orbit_sampling(num_points):
     dt = .18
     sim_time = num_points*dt
@@ -75,9 +75,22 @@ def orbit_sampling(num_points):
     x_train = solve_ivp(
         lorenz, t_train_span, x0_train, t_eval=t_train, **integrator_keywords
     ).y.T
-    print(x_train)
     model = ps.SINDy()
     model.fit(x_train, t=dt)
+
+
+    coefficients = model.coefficients()
+    feature_names = model.get_feature_names()
+    eqs = model.equations
+    
+    for i, coeffs in enumerate(coefficients):
+        equation = f"dx{i}/dt = "
+        terms = []
+        for coeff, feature in zip(coeffs, feature_names):
+            if coeff != 0:  # Only include non-zero coefficients
+                terms.append(f"{coeff:.4f} * {feature}")
+        equation += " + ".join(terms) if terms else "0"
+        print(equation)
 
     #Evolve the Lorenz equations in time using a different initial condition
     t_test = np.arange(0, sim_time, dt)
@@ -88,4 +101,5 @@ def orbit_sampling(num_points):
     ).y.T
 
     # Predict derivatives using the learned model
-    print(model.predict(x_test))
+    return model.predict(x_test)
+orbit_sampling(10)
