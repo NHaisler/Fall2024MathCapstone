@@ -35,8 +35,15 @@ def rle_compression_ratio(s):
 
 
 def zlib_compression(s):
-    s = s.encode()
+    s = int(s, 2).to_bytes((len(s) + 7) // 8, byteorder='big')
+
     original = sys.getsizeof(s)
     compressed = sys.getsizeof(zlib.compress(s))
+    #print(s)
+    #print(zlib.compress(s))
+    #print(original, compressed)
 
+   
     return original/compressed
+
+#print(zlib_compression("0011"))

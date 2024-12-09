@@ -26,7 +26,9 @@ def generate_points(num_points = 10, sampled = False):
     else:
         #Instantiate and fit the SINDy model
         model = ps.SINDy()
-        model.fit(x_train, t=dt)
+
+
+        model.fit(generate_points(100), t=dt)
 
         #Evolve the Lorenz equations in time using a different initial condition
         t_test = np.arange(0, sim_time, dt)
@@ -39,6 +41,7 @@ def generate_points(num_points = 10, sampled = False):
         # Predict derivatives using the learned model
         return model.predict(x_test)
 
+
 def get_random_num(x, y, z, length):
     x_large = np.float64(10**14) * np.float64(x)
     y_large = np.float64(10**14) * np.float64(y)
@@ -48,6 +51,13 @@ def get_random_num(x, y, z, length):
     K = v_large % 2**length
 
     return K
+
+def set_to_number(points):
+    number = ""
+    for point in points:
+        r = str(int(get_random_num(point[0], point[1], point[2], 8))).rjust(3, "0")
+        number += str(bin(int(r)))[2:].rjust(8, "0")
+    return number
 
 def lorenz_random_number(n, sampled = False, length = 8):
     
@@ -102,4 +112,3 @@ def orbit_sampling(num_points):
 
     # Predict derivatives using the learned model
     return model.predict(x_test)
-orbit_sampling(10)

@@ -22,6 +22,8 @@ x_train = solve_ivp(
     lorenz, t_train_span, x0_train, t_eval=t_train, **integrator_keywords
 ).y.T
 
+print(x_train)
+print(dt)
 #Instantiate and fit the SINDy model
 model = ps.SINDy()
 model.fit(x_train, t=dt)

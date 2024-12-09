@@ -25,12 +25,26 @@ total_diff = 0
 n = 10
 for o_num, s_num in zip(lorenz_random_number(n,length = 14), lorenz_random_number(n, sampled=True, length = 14)):
     print(f"-------------------------------------------------")
-    curr_diff = zlib_compression(o_num) - zlib_compression(s_num)
+    org_comp  = zlib_compression(o_num)
+    sam_comp  = zlib_compression(s_num)
+    diff      = org_comp - sam_comp
     print(f"Source System:  {o_num} | Sampled System: {s_num}")
-    print(f"Differnce in zlib compression: {curr_diff}")
-    total_diff += curr_diff
+    print(f"Original: {org_comp}")
+    print(f"Sampled: {org_comp}")
+    print(f"Difference: {diff}")
+
+    total_diff += diff
 else:
     print(f"-------------------------------------------------")
 
 print(f"Mean Error over {n} points: {total_diff/n}")
 print(f"======================================================")
+
+
+
+
+
+
+curr_diff = zlib_compression(o_num) - zlib_compression(s_num)
+print(f"Source System:  {o_num} | Sampled System: {s_num}")
+print(f"Difference in zlib compression: {curr_diff}")
